@@ -1,0 +1,36 @@
+# Recursive Fibonacci Function
+def fib_recursive(n):
+    if n <= 1:
+        return n
+    return fib_recursive(n-1) + fib_recursive(n-2)
+
+
+# Iterative (Non-Recursive) Fibonacci Function
+def fib_iterative(n):
+    if n <= 1:
+        return n
+    
+    a, b = 0, 1
+    for _ in range(2, n + 1):
+        a, b = b, a + b
+    return b
+
+
+# Main Program
+n = int(input("Enter value of n: "))
+
+print("Fibonacci (Recursive):", fib_recursive(n))
+print("Fibonacci (Iterative):", fib_iterative(n))
+
+
+Recursive
+
+Time Complexity: O(2ⁿ)
+
+Space Complexity: O(n)
+
+✅ Iterative
+
+Time Complexity: O(n)
+
+Space Complexity: O(1)

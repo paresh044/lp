@@ -1,0 +1,102 @@
+# 0-1 Knapsack using Branch & Bound (best-first search)
+
+import heapq
+
+class Node:
+    __slots__ = ("level", "value", "weight", "bound", "taken")
+    def __init__(self, level, value, weight, bound, taken):
+        self.level = level      # next item index to decide
+        self.value = value
+        self.weight = weight
+        self.bound = bound      # optimistic upper bound
+        self.taken = taken      # list of taken item indexes
+
+    def __lt__(self, other):    # for max-heap via negative bound
+        return self.bound > other.bound
+
+
+def bound_fractional(level, current_weight, current_value, items, capacity):
+    """Greedy (fractional) bound from 'level' onward."""
+    if current_weight >= capacity:
+        return 0  # infeasible path
+
+    total_value = current_value
+    total_weight = current_weight
+    n = len(items)
+
+    # take items greedily by value/weight
+    i = level
+    while i < n and total_weight + items[i][0] <= capacity:
+        total_weight += items[i][0]
+        total_value += items[i][1]
+        i += 1
+
+    # take fraction of next item (for bound only)
+    if i < n:
+        wt, val = items[i]
+        remain = capacity - total_weight
+        total_value += val * (remain / wt)
+
+    return total_value
+
+
+def knapsack_branch_and_bound(weights, values, capacity):
+    n = len(weights)
+    # Pre-sort items by value/weight (desc) for stronger bounds
+    order = sorted(range(n), key=lambda i: values[i]/weights[i], reverse=True)
+    items = [(weights[i], values[i], i) for i in order]  # (wt, val, original_idx)
+
+    # Priority queue (max-heap on bound): use negative for heapq
+    pq = []
+    root_bound = bound_fractional(0, 0, 0, [(wt, val) for wt, val, _ in items], capacity)
+    heapq.heappush(pq, (-root_bound, Node(level=0, value=0, weight=0, bound=root_bound, taken=[])))
+
+    best_value = 0
+    best_taken = []
+
+    # Best-first search
+    while pq:
+        _, node = heapq.heappop(pq)
+
+        # If bound not better than current best, prune
+        if node.bound <= best_value:
+            continue
+
+        # If we considered all items, continue
+        if node.level >= n:
+            continue
+
+        wt, val, orig_idx = items[node.level]
+
+        # 1) Take the item, if feasible
+        if node.weight + wt <= capacity:
+            v1 = node.value + val
+            w1 = node.weight + wt
+            taken1 = node.taken + [orig_idx]
+            if v1 > best_value:
+                best_value = v1
+                best_taken = taken1
+            b1 = bound_fractional(node.level + 1, w1, v1, [(w, v) for w, v, _ in items], capacity)
+            if b1 > best_value:
+                heapq.heappush(pq, (-b1, Node(node.level + 1, v1, w1, b1, taken1)))
+
+        # 2) Skip the item
+        b2 = bound_fractional(node.level + 1, node.weight, node.value, [(w, v) for w, v, _ in items], capacity)
+        if b2 > best_value:
+            heapq.heappush(pq, (-b2, Node(node.level + 1, node.value, node.weight, b2, node.taken)))
+
+    # Return chosen indexes in original order
+    best_taken.sort()
+    return best_value, best_taken
+
+
+# ----------------- Demo -----------------
+if __name__ == "__main__":
+    weights = [2, 3, 4, 5]
+    values  = [3, 4, 5, 6]
+    capacity = 5
+
+    best_value, chosen_idx = knapsack_branch_and_bound(weights, values, capacity)
+    print("B&B -> Best value:", best_value)
+    print("B&B -> Chosen item indexes:", chosen_idx)
+    print("B&B -> Chosen (weight,value):", [(weights[i], values[i]) for i in chosen_idx])

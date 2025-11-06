@@ -1,0 +1,42 @@
+# Program to solve Fractional Knapsack Problem using Greedy Method
+
+# Function to calculate maximum profit
+def fractional_knapsack(weights, values, capacity):
+    n = len(weights)
+
+    # Calculate value/weight ratio for each item
+    ratio = []
+    for i in range(n):
+        ratio.append((values[i] / weights[i], i))  # (ratio, index)
+
+    # Sort items by ratio in descending order
+    ratio.sort(reverse=True)
+
+    total_value = 0.0     # Total profit
+    remaining = capacity   # Remaining capacity in bag
+
+    for r, i in ratio:
+        if remaining == 0:
+            break
+
+        # If item can be taken fully
+        if weights[i] <= remaining:
+            total_value += values[i]
+            remaining -= weights[i]
+        else:
+            # Take fractional part
+            fraction = remaining / weights[i]
+            total_value += values[i] * fraction
+            remaining = 0
+
+    return total_value
+
+
+# --------------------------
+# Main Program
+# --------------------------
+weights = [10, 20, 30]
+values = [60, 100, 120]
+capacity = 50
+
+print("Maximum value in Knapsack =", fractional_knapsack(weights, values, capacity))

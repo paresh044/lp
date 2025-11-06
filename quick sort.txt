@@ -1,0 +1,45 @@
+import random
+
+# ------------------------------------------
+# Deterministic Quick Sort (pivot = last element)
+# ------------------------------------------
+def quicksort_deterministic(arr):
+    if len(arr) <= 1:
+        return arr
+    
+    pivot = arr[-1]                     # fixed pivot (last element)
+    left  = [x for x in arr[:-1] if x < pivot]
+    right = [x for x in arr[:-1] if x >= pivot]
+    
+    return quicksort_deterministic(left) + [pivot] + quicksort_deterministic(right)
+
+
+# ------------------------------------------
+# Randomized Quick Sort (pivot chosen randomly)
+# ------------------------------------------
+def quicksort_randomized(arr):
+    if len(arr) <= 1:
+        return arr
+    
+    pivot = random.choice(arr)          # pick random pivot
+    left  = [x for x in arr if x < pivot]
+    mid   = [x for x in arr if x == pivot]
+    right = [x for x in arr if x > pivot]
+    
+    return quicksort_randomized(left) + mid + quicksort_randomized(right)
+
+
+# ------------------------------------------
+# MAIN PROGRAM
+# ------------------------------------------
+arr = [10, 7, 8, 9, 1, 5]
+
+print("Original Array:", arr)
+
+# Deterministic Quick Sort
+det_sorted = quicksort_deterministic(arr.copy())
+print("Deterministic Quick Sort:", det_sorted)
+
+# Randomized Quick Sort
+rand_sorted = quicksort_randomized(arr.copy())
+print("Randomized Quick Sort   :", rand_sorted)
