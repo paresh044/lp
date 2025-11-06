@@ -1,0 +1,19 @@
+Installation of MetaMask and study spending Ether per transaction
+✅ Installation of MetaMask (One-Line Steps)
+
+1️⃣ Go to https://metamask.io
+ → click Download → choose your browser → click Add Extension.
+2️⃣ Open the MetaMask icon → click Create a Wallet.
+3️⃣ Set a strong password → click Create.
+4️⃣ Write down the Secret Recovery Phrase → confirm it → click Done.
+5️⃣ MetaMask is now installed and ready to use.
+
+✅ Study Spending Ether Per Transaction (One-Line Steps)
+
+1️⃣ Open MetaMask → choose an account.
+2️⃣ Click Send → enter receiver address → enter amount of ETH.
+3️⃣ Check Gas Fee displayed under "Estimated Gas Fee".
+4️⃣ Click Edit (optional) → view Low / Market / Aggressive gas options.
+5️⃣ Total ETH spent = Amount Sent + Gas Fee (displayed before confirming).
+6️⃣ Click Confirm to send and view Actual Gas Used under Activity → Transaction Details.
+7️⃣ On the transaction, click View on Explorer to see Gas Used × Gas Price = Cost in ETH.

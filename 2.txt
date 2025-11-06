@@ -1,0 +1,11 @@
+1️⃣ Go to https://metamask.io
+ → click Download → install the extension.
+2️⃣ Click the MetaMask icon → choose Create a Wallet.
+3️⃣ Accept or skip Help Improve MetaMask prompt.
+4️⃣ Set a strong password → click Create.
+5️⃣ MetaMask shows a Secret Recovery Phrase (12 words) → click Reveal.
+6️⃣ Write down the Recovery Phrase on paper (offline) for safety.
+7️⃣ Confirm the Recovery Phrase by selecting words in the correct order.
+8️⃣ Click All Done → wallet is successfully created.
+9️⃣ Your account shows a public address → copy it to receive crypto.
+🔟 You can now send, receive, and store Ethereum or ERC-20 tokens using your wallet.
